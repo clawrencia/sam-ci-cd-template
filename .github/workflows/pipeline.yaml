@@ -178,39 +178,39 @@ jobs:
 
   build-and-package:
     if: startsWith(github.ref, 'refs/heads/feature')
-      needs: [integration-test]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-python@v2
-        - uses: aws-actions/setup-sam@v1
+    needs: [integration-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: aws-actions/setup-sam@v1
 
-        - name: Build resources
-          run: sam build --template ${SAM_TEMPLATE} --use-container
+      - name: Build resources
+        run: sam build --template ${SAM_TEMPLATE} --use-container
 
-        - name: Assume the prod pipeline user role
-          uses: aws-actions/configure-aws-credentials@v1
-          with:
-            aws-access-key-id: ${{ env.PIPELINE_USER_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ env.PIPELINE_USER_SECRET_ACCESS_KEY }}
-            aws-region: ${{ env.PROD_REGION }}
-            role-to-assume: ${{ env.PROD_PIPELINE_EXECUTION_ROLE }}
-            role-session-name: prod-packaging
-            role-duration-seconds: 3600
-            role-skip-session-tagging: true
+      - name: Assume the prod pipeline user role
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.PIPELINE_USER_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.PIPELINE_USER_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.PROD_REGION }}
+          role-to-assume: ${{ env.PROD_PIPELINE_EXECUTION_ROLE }}
+          role-session-name: prod-packaging
+          role-duration-seconds: 3600
+          role-skip-session-tagging: true
 
-        - name: Upload artifacts to production artifact buckets
-          run: |
-            sam package \
-              --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
-              --image-repository ${PROD_IMAGE_REPOSITORY} \
-              --region ${PROD_REGION} \
-              --output-template-file packaged-prod.yaml
+      - name: Upload artifacts to production artifact buckets
+        run: |
+          sam package \
+            --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
+            --image-repository ${PROD_IMAGE_REPOSITORY} \
+            --region ${PROD_REGION} \
+            --output-template-file packaged-prod.yaml
 
-        - uses: actions/upload-artifact@v2
-          with:
-            name: packaged-prod.yaml
-            path: packaged-prod.yaml
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packaged-prod.yaml
+          path: packaged-prod.yaml
 
 
   deploy-prod:
