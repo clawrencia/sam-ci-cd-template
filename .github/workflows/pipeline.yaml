@@ -59,7 +59,7 @@ jobs:
           FEATURE_BRANCH_NAME: ${{ github.event.ref }}
         run: |
           sam delete \
-            --stack-name $(echo ${FEATURE_BRANCH_NAME##*/} | tr -cd '[a-zA-Z0-9-]') \
+            --stack-name $(echo ${TESTING_STACK_NAME} \
             --region ${TESTING_REGION} \
             --no-prompts
 
