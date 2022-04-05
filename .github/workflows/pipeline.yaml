@@ -35,33 +35,35 @@ jobs:
       - run: |
           # trigger the tests here
 
-  delete-feature:
-    if: startsWith(github.event.ref, 'feature') && github.event_name == 'delete'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: aws-actions/setup-sam@v1
 
-      - name: Assume the testing pipeline user role
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ env.PIPELINE_USER_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.PIPELINE_USER_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.TESTING_REGION }}
-          role-to-assume: ${{ env.TESTING_PIPELINE_EXECUTION_ROLE }}
-          role-session-name: testing-packaging
-          role-duration-seconds: 3600
-          role-skip-session-tagging: true
+  # delete-feature:
+  #   if: startsWith(github.event.ref, 'feature') && github.event_name == 'delete'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-python@v2
+  #     - uses: aws-actions/setup-sam@v1
 
-      - name: Delete feature branch stack
-        env:
-          FEATURE_BRANCH_NAME: ${{ github.event.ref }}
-        run: |
-          sam delete \
-            --stack-name $(echo ${TESTING_STACK_NAME} \
-            --region ${TESTING_REGION} \
-            --no-prompts
+  #     - name: Assume the testing pipeline user role
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ env.PIPELINE_USER_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ env.PIPELINE_USER_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ env.TESTING_REGION }}
+  #         role-to-assume: ${{ env.TESTING_PIPELINE_EXECUTION_ROLE }}
+  #         role-session-name: testing-packaging
+  #         role-duration-seconds: 3600
+  #         role-skip-session-tagging: true
+
+  #     - name: Delete feature branch stack
+  #       env:
+  #         FEATURE_BRANCH_NAME: ${{ github.event.ref }}
+  #       run: |
+  #         sam delete \
+  #           --stack-name $(echo ${FEATURE_BRANCH_NAME##*/} | tr -cd '[a-zA-Z0-9-]') \
+  #           --region ${TESTING_REGION} \
+  #           --no-prompts
+
 
   build-and-package-feature:
     if: startsWith(github.ref, 'refs/heads/feature')
@@ -144,7 +146,6 @@ jobs:
 
   build-and-package:
     if: github.ref == 'refs/heads/main'
-    needs: [integration-test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
