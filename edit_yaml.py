@@ -6,7 +6,7 @@ import cfn_flip.yaml_dumper
 
 
 def edit_yaml(type,stack_name):
-    with open(f'packaged-{type}.yaml') as f:
+    with open(f'/home/runner/work/sam-ci-cd-template/sam-ci-cd-template/packaged-{type}.yaml') as f:
         raw = f.read()
     yaml_dict = load_yaml(raw)
 
