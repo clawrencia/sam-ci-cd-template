@@ -22,7 +22,7 @@ def edit_yaml(type,stack_name):
     
    
     #rewrite the yaml file
-    with open('packaged-{type}.yaml') as f:
+    with open('/home/runner/work/sam-ci-cd-template/sam-ci-cd-template/packaged-{type}.yaml') as f:
         dumper = cfn_flip.yaml_dumper.get_dumper(clean_up=False, long_form=False)
         raw = yaml.dump(
             yaml_dict,
