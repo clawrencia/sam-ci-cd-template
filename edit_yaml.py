@@ -22,7 +22,7 @@ def edit_yaml(type,stack_name):
     
    
     #rewrite the yaml file
-    with open(f'packaged-{type}.yaml','w+') as f:
+    with open(f'packaged-{type}-edited.yaml','w+') as f:
         dumper = cfn_flip.yaml_dumper.get_dumper(clean_up=False, long_form=False)
         raw = yaml.dump(
             yaml_dict,
