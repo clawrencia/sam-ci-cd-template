@@ -6,7 +6,7 @@ import cfn_flip.yaml_dumper
 
 
 def edit_yaml(type,stack_name):
-    with open(f'sam-template/template.yaml') as f:
+    with open(f'packaged-{type}.yaml') as f:
         raw = f.read()
     yaml_dict = load_yaml(raw)
 
@@ -22,7 +22,7 @@ def edit_yaml(type,stack_name):
     
    
     #rewrite the yaml file
-    with open(f'packaged-{type}.yaml') as f:
+    with open(f'packaged-{type}.yaml','w+') as f:
         dumper = cfn_flip.yaml_dumper.get_dumper(clean_up=False, long_form=False)
         raw = yaml.dump(
             yaml_dict,
@@ -47,10 +47,10 @@ def main():
     stack_name = args.stack_name
 
     if args.input:
-        if args.input == 'test':
+        if args.input == 'testing':
             #do test stuff
             print("Updating Test Stack Yaml")
-            edit_yaml('test', stack_name)
+            edit_yaml('testing', stack_name)
         elif args.input == 'prod':
             #do the prod stuff
             print("Updating Prod Stack Yaml")
