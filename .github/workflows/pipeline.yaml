@@ -66,6 +66,16 @@ jobs:
             --region ${TESTING_REGION} \
             --output-template-file packaged-testing.yaml
 
+      - name: Uploading packaged-testing
+        uses: actions/upload-artifact@v2
+        with:
+          name: packaged-testing.yaml
+          path: packaged-testing.yaml
+      
+      - uses: actions/download-artifact@v2
+        with:
+          name: packaged-testing.yaml
+      
       - name: Editing packaged-testing.yaml
         uses: actions/setup-python@v2
         with:
@@ -75,13 +85,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          python edit_yaml.py -i test --stack_name ${TESTING_STACK_NAME}
+          python edit_yaml.py -i testing --stack_name ${TESTING_STACK_NAME}
 
-      - name: Uploading packaged-testing
+      - name: Uploading packaged-testing-edited
         uses: actions/upload-artifact@v2
         with:
-          name: packaged-testing.yaml
-          path: packaged-testing.yaml
+          name: packaged-testing-edited.yaml
+          path: packaged-testing-edited.yaml
 
   deploy-testing:
     if: startsWith(github.ref, 'refs/heads/feature')
@@ -93,7 +103,7 @@ jobs:
       - uses: aws-actions/setup-sam@v1
       - uses: actions/download-artifact@v2
         with:
-          name: packaged-testing.yaml
+          name: packaged-testing-edited.yaml
 
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v1
@@ -154,16 +164,6 @@ jobs:
             --region ${PROD_REGION} \
             --output-template-file packaged-prod.yaml
       
-      - name: Editing packaged-prod.yaml
-        uses: actions/setup-python@v2
-        with:
-            python-version: 3.8
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; 
-          python edit_yaml.py -i prod --stack_name ${PROD_STACK_NAME}
 
       - uses: actions/upload-artifact@v2
         with:
