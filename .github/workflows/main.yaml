@@ -18,7 +18,7 @@ env:
   PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::828642618201:role/aws-sam-cli-managed-prod-CloudFormationExecutionR-SIFG1FO60FKO
   PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-prod-pipeline-artifactsbucket-i9hipnh1c6ix
   PROD_IMAGE_REPOSITORY: 828642618201.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-prod-pipeline-resources-imagerepository-izlntruvk7l6
-  PROD_REGION: us-east-2
+  PROD_REGION: us-east-1
 
 jobs:
   test:

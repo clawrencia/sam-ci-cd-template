@@ -17,7 +17,7 @@ env:
   TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::828642618201:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionR-KTDXAFLZ1FVX
   TESTING_ARTIFACTS_BUCKET: aws-sam-cli-managed-dev-pipeline-artifactsbucket-1ldp4aknebciv
   TESTING_IMAGE_REPOSITORY: 828642618201.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-dev-pipeline-resources-imagerepository-mtcagcgypdhc
-  TESTING_REGION: us-east-2
+  TESTING_REGION: us-east-1
   
 
 jobs:
