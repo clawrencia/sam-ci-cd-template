@@ -12,13 +12,13 @@ on:
 env:
   PIPELINE_USER_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   PIPELINE_USER_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  SAM_TEMPLATE: template.yaml
+  SAM_TEMPLATE: sam-ci-cd-template/template.yaml
   PROD_STACK_NAME: prod-sam-app
   PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::828642618201:role/aws-sam-cli-managed-prod-pip-PipelineExecutionRole-FU25QSY0JCEN
   PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::828642618201:role/aws-sam-cli-managed-prod-CloudFormationExecutionR-SIFG1FO60FKO
   PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-prod-pipeline-artifactsbucket-i9hipnh1c6ix
   PROD_IMAGE_REPOSITORY: 828642618201.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-prod-pipeline-resources-imagerepository-izlntruvk7l6
-  PROD_REGION: us-east-1
+  PROD_REGION: us-east-2
 
 jobs:
   test:
